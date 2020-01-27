@@ -2,20 +2,8 @@ const router = require('express').Router();
 const User = require("./authUsersModels")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const tokenGenerator = require("./tokenGenerator")
 
-function tokenGenerator(user){
-  const payload = {
-    username: user.name,
-    id: user.id
-  }
-  const options = {
-    expiresIn: '1h'
-  }
-  return jwt.sign(payload, process.env.JWT_SECRET_SAUCE || "43456Fdfw@$#", options)
-
-
-
-}
 router.post('/register', (req, res) => {
   const { username, password } = req.body 
   User.insert({ username, password: bcrypt.hashSync(password, 10) })
